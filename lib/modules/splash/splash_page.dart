@@ -10,7 +10,7 @@ class SplashPage extends StatelessWidget {
       body: Stack(
         children: [
           Center(child: Image.asset(AppImages.union)),
-          Center(child: Image.asset(AppImages.logoFull))
+          Center(child: Image.asset(AppImages.logoFull)),
         ],
       ),
     );
