@@ -21,7 +21,8 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
     controller.getAvailableCameras();
     controller.statusNotifier.addListener(() {
       if (controller.status.hasBarcode) {
-        Navigator.pushReplacementNamed(context, "/insert_boleto");
+        Navigator.pushReplacementNamed(context, "/insert_boleto",
+            arguments: controller.status.barcode);
       }
     });
 
@@ -97,24 +98,25 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
                 )),
           ),
           ValueListenableBuilder<BarcodeScannerStatus>(
-              valueListenable: controller.statusNotifier,
-              builder: (_, status, __) {
-                if (status.hasError) {
-                  return BottomSheetWidget(
-                    title: "Não foi possível identificar um código de barras.",
-                    subtitle:
-                        "Tente escanear novamente ou digite o código do seu boleto.",
-                    primaryLabel: "Escanear novamente",
-                    primaryOnPressed: () {
-                      controller.scanWithCamera();
-                    },
-                    secondaryLabel: "Digitar código",
-                    secondaryOnPressed: () {},
-                  );
-                } else {
-                  return Container();
-                }
-              }),
+            valueListenable: controller.statusNotifier,
+            builder: (_, status, __) {
+              if (status.hasError) {
+                return BottomSheetWidget(
+                  title: "Não foi possível identificar um código de barras.",
+                  subtitle:
+                      "Tente escanear novamente ou digite o código do seu boleto.",
+                  primaryLabel: "Escanear novamente",
+                  primaryOnPressed: () {
+                    controller.scanWithCamera();
+                  },
+                  secondaryLabel: "Digitar código",
+                  secondaryOnPressed: () {},
+                );
+              } else {
+                return Container();
+              }
+            },
+          ),
         ],
       ),
     );
